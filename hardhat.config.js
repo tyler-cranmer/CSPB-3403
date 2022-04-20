@@ -35,13 +35,13 @@ module.exports = {
     ganache: {
       url: "http:localhost:8545",
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.MNEMONIC,
       },
     },
     mainnet: {
-      url: MAINNET_RPC_URL,
+      url: process.env.MAINNET_RPC_URL,
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: process.env.MNEMONIC,
       },
       saveDeployments: true,
     },
