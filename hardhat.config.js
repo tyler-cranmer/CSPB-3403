@@ -24,11 +24,29 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
   solidity: "0.8.4",
   networks: {
-    ropsten: {
-      url: process.env.ROPSTEN_URL || "",
+    hardhat: {
+      accounts: {},
+    },
+    localhost: {},
+    ganache: {
+      url: "http:localhost:8545",
+      accounts: {
+        mnemonic: MNEMONIC,
+      },
+    },
+    mainnet: {
+      url: MAINNET_RPC_URL,
+      accounts: {
+        mnemonic: MNEMONIC,
+      },
+      saveDeployments: true,
+    },
+    rinkeby: {
+      url: process.env.RINKEBY_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+    saveDeployments: true,
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
@@ -36,5 +54,14 @@ module.exports = {
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0, // here this will by default take the first account as deployer
+      1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
+    },
+    feeCollector: {
+      default: 1,
+    },
   },
 };
