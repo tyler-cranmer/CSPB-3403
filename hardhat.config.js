@@ -27,7 +27,11 @@ module.exports = {
     hardhat: {
       accounts: {},
     },
-    localhost: {},
+    localhost: {
+      url: "http://127.0.0.1:8545/",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
     ganache: {
       url: "http:localhost:8545",
       accounts: {
@@ -45,8 +49,14 @@ module.exports = {
       url: process.env.RINKEBY_URL || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      saveDeployments: true,
     },
-    saveDeployments: true,
+    kovan: {
+      url: process.env.KOVAN_URL || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      saveDeployments: true,
+    },
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
