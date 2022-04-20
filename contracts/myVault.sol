@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 @title myVault
 @license GNU GPLv3
 @author Tyler Cranmer
-@notice Vault to automate and denctralize a long term donation strategy
+@notice Vault to automate and decentralize a long term donation strategy
 */
 
 import "hardhat/console.sol";
