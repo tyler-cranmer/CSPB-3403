@@ -16,7 +16,7 @@ import '@uniswap/v3-periphery/contracts/interfaces/IQuoter.sol'; //price quoter 
 
 // EACAggregatorProxy is used for chainlink oracle
 interface EACAggregatorProxy {
-    function latestAnswer() external views returns(int256)
+    function latestAnswer() external views returns(int256) //gets the price for ethereum.
 }
 
 //Uniswap v3 interface
@@ -31,23 +31,34 @@ interface DepositableERC20 is IERC20 {
 
 
  contract myVault {
+    uint256 public version = 1
+    address public daiAddress;
+    address public wethAddress;
+    address public uniswapV3QuoterAddress;
+    address public uniswapV3RouterAddress;
+    address public chainLinkETHUSDAddress;
 
-     address public daiAddress;
-     address public wethAddress;
-     address public uniswapV3QuoterAddress;
-     address public uniswapV3RouterAddress;
-     address public chainLinkETHUSDAddress;
-     constructor (
-         string memory _daiAddress,
-         string memory _wethAddress,
-         string memory _uniswapV3QuoterAddress,
-         string memory _uniswapV3RouterAddress,
-         string memory _chainLinkETHUSDAddress
-     ) public {
-         daiAddress = _daiAddress;
-         wethAddress =_wethAddress;
-         uniswapV3QuoterAddress = _uniswapV3QuoterAddress;
-         uniswapV3RouterAddress = _uniswapV3RouterAddress;
-         chainLinkETHUSDAddress = _chainLinkETHUSDAddress;
-     }
+    uint256 public ethPrice = 0;
+    uint256 public usdTargetPercentage = 40;
+    uint256 public usdDividentPercentage = 25; // 25% of 40% = 10% Annual Drawdown
+    uint256 private dividendFrequency = 3 minutes; // change to 1 years of production. 
+    uint256 public nextDividentTS;
+    address public owner;
+    constructor (
+        string memory _daiAddress,
+        string memory _wethAddress,
+        string memory _uniswapV3QuoterAddress,
+        string memory _uniswapV3RouterAddress,
+        string memory _chainLinkETHUSDAddress
+    ) public {
+        daiAddress = _daiAddress;
+        wethAddress =_wethAddress;
+        uniswapV3QuoterAddress = _uniswapV3QuoterAddress;
+        uniswapV3RouterAddress = _uniswapV3RouterAddress;
+        chainLinkETHUSDAddress = _chainLinkETHUSDAddress;
+    }
+
+
+    using SafeERC20 for IERC20;
+    using SafeERC20 for DepositableERC20;
  }
