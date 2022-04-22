@@ -1,4 +1,4 @@
-const credentials = require('../credentials.js')
+const credentials = require("../credentials.js");
 const { expect, assert } = require("chai");
 const { ethers } = require("hardhat");
 const hre = require("hardhat");
@@ -8,11 +8,10 @@ describe("MyVault Contract", () => {
   let myVault;
 
   beforeEach(async () => {
-    const contractName = "myVault";
+    const contractName = "Vault";
     await hre.run("compile");
     const smartContract = await ethers.getContractFactory(contractName);
-      myVault = await smartContract.deploy(
-      );
+    myVault = await smartContract.deploy();
     await myVault.deployed();
     console.log(`${contractName} deployed to: ${myVault.address}`);
     console.log(`Owner = ${await myVault.owner()}`);
@@ -42,6 +41,40 @@ describe("MyVault Contract", () => {
     it("Should return zero DAI balance", async () => {
       const daiBalance = await myVault.getDaiBalance();
       assert.equal(daiBalance, 0);
+    });
+
+    it("Should Rebalance The Portfolio", async () => {
+      const accounts = await hre.ethers.getSigners();
+      const owner = accounts[0];
+      console.log("Transfering ET from Owner Address", owner.address);
+      await owner.sendTransaction({
+        to: myVault.address,
+        value: ethers.utils.parseEther("0.1"),
+      });
+      await myVault.wrapETH();
+      await myVault.updateEthPriceUniswap();
+      await myVault.rebalance();
+
+      const daiBalance = await myVault.getDaiBalance();
+      console.log("Rebalanced DAI Balance", daiBalance);
+      assert.isAbove(daiBalance, 0);
+    });
+
+    it("Should Rebalance The Portfolio using chainlink", async () => {
+      const accounts = await hre.ethers.getSigners();
+      const owner = accounts[0];
+      console.log("Transfering ET from Owner Address", owner.address);
+      await owner.sendTransaction({
+        to: myVault.address,
+        value: ethers.utils.parseEther("0.1"),
+      });
+      await myVault.wrapETH();
+      await myVault.updteEthPriceChainlink();
+      await myVault.rebalance();
+
+      const daiBalance = await myVault.getDaiBalance();
+      console.log("Rebalanced DAI Balance", daiBalance);
+      assert.isAbove(daiBalance, 0);
     });
   });
 });

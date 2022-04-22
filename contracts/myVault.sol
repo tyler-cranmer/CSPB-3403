@@ -29,13 +29,16 @@ interface DepositableERC20 is IERC20 {
     function deposit() external payable; //add deposit interface for WETH
 }
 
-contract myVault {
+contract Vault {
     uint256 public version = 1;
     address public daiAddress = 0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa;
     address public wethAddress = 0xd0A1E359811322d97991E03f863a0C30C2cF029C;
-    address public uniswapV3QuoterAddress = 0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6;
-    address public uniswapV3RouterAddress = 0xE592427A0AEce92De3Edee1F18E0157C05861564;
-    address public chainLinkETHUSDAddress = 0x9326BFA02ADD2366b30bacB125260Af641031331;
+    address public uniswapV3QuoterAddress =
+        0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6;
+    address public uniswapV3RouterAddress =
+        0xE592427A0AEce92De3Edee1F18E0157C05861564;
+    address public chainLinkETHUSDAddress =
+        0x9326BFA02ADD2366b30bacB125260Af641031331;
 
     uint256 public ethPrice;
     uint256 public updatedPriceTime;
@@ -61,7 +64,6 @@ contract myVault {
         owner = msg.sender;
     }
 
-
     function getDaiBalance() public view returns (uint256) {
         return daiToken.balanceOf(address(this));
     }
@@ -73,7 +75,7 @@ contract myVault {
     function getTotalBalance() public view returns (uint256) {
         require(ethPrice > 0, "Eth price has not been set");
         require(
-            updatedPriceTime >= block.timestamp,
+            block.timestamp - updatedPriceTime <= 1 days,
             "Need to get updated Eth price"
         );
         uint256 daiBalance = getDaiBalance();
@@ -92,6 +94,7 @@ contract myVault {
             0
         );
         ethPrice = ethPriceRaw / 100000;
+        updatedPriceTime = block.timestamp;
         return ethPrice;
     }
 
@@ -99,6 +102,7 @@ contract myVault {
         int256 chainLinkEthPrice = EACAggregatorProxy(chainLinkETHUSDAddress)
             .latestAnswer();
         ethPrice = uint256(chainLinkEthPrice / 100000000);
+        updatedPriceTime = block.timestamp;
         return ethPrice;
     }
 
@@ -135,19 +139,23 @@ contract myVault {
         uint24 fee = 3000;
         address recipient = address(this);
         uint256 amountOut = amountUSD; //includes 18 decimals
-        uint256 amountInMaximum = 10 ** 28; 
+        uint256 amountInMaximum = 10**28;
         uint160 sqrtPriceLimitX96 = 0;
-        require(wethToken.approve(address(uniswapV3RouterAddress), amountOut), "Weth Approve failed");
-        ISwapRouter.ExactOutputSingleParams memory params = ISwapRouter.ExactOutputSingleParams(
-        wethAddress,
-        daiAddress,
-        fee,
-        recipient,
-        deadline,
-        amountOut,
-        amountInMaximum,
-        sqrtPriceLimitX96
+        require(
+            wethToken.approve(address(uniswapV3RouterAddress), amountOut),
+            "Weth Approve failed"
         );
+        ISwapRouter.ExactOutputSingleParams memory params = ISwapRouter
+            .ExactOutputSingleParams(
+                wethAddress,
+                daiAddress,
+                fee,
+                recipient,
+                deadline,
+                amountOut,
+                amountInMaximum,
+                sqrtPriceLimitX96
+            );
 
         uniswapRouter.exactOutputSingle(params);
         uniswapRouter.refundETH();
@@ -155,53 +163,55 @@ contract myVault {
 
     function rebalance() public {
         require(msg.sender == owner, "Only the owner can rebalance");
-        uint usdBalance = getDaiBalance();
-        uint totalBalance = getTotalBalance();
-        uint usdBalancePercentage = 100 * usdBalance / totalBalance;
+        uint256 usdBalance = getDaiBalance();
+        uint256 totalBalance = getTotalBalance();
+        uint256 usdBalancePercentage = (100 * usdBalance) / totalBalance;
         emit myVaultLog("usdBalancePercentage: ", usdBalancePercentage);
-        if (usdBalancePercentage < usdTargetPercentage){
-            uint amountToSell = totalBalance / 100 * (usdTargetPercentage - usdBalancePercentage);
+        if (usdBalancePercentage < usdTargetPercentage) {
+            uint256 amountToSell = (totalBalance / 100) *
+                (usdTargetPercentage - usdBalancePercentage);
             emit myVaultLog("Amount to Sell", amountToSell);
-            require (amountToSell > 0, "Nothing to sell");
+            require(amountToSell > 0, "Nothing to sell");
             sellWeth(amountToSell);
         } else {
-            uint amountToBuy = totalBalance / 100 * (usdBalancePercentage - usdTargetPercentage);
+            uint256 amountToBuy = (totalBalance / 100) *
+                (usdBalancePercentage - usdTargetPercentage);
             emit myVaultLog("amountToBuy", amountToBuy);
             require(amountToBuy > 0, "Nothing To Buy");
             buyWeth(amountToBuy);
         }
-        
     }
 
-    // 10% annual dividend from strategy. 
+    // 10% annual dividend from strategy.
     function annualDividend() public {
         require(msg.sender == owner, "You are not the owner");
-        require(block.timestamp > nextDividendTS, "Dividend is not yet due" );
-        uint balance = getDaiBalance();
-        uint amount = (balance * usdDividentPercentage) / 100;
+        require(block.timestamp > nextDividendTS, "Dividend is not yet due");
+        uint256 balance = getDaiBalance();
+        uint256 amount = (balance * usdDividentPercentage) / 100;
         daiToken.safeTransfer(owner, amount);
         nextDividendTS = block.timestamp + dividendFrequency;
     }
 
     function closeAccount() public {
         require(msg.sender == owner, "Only the owner can close thier account");
-        uint daiBalance = getDaiBalance();
+        uint256 daiBalance = getDaiBalance();
         if (daiBalance > 0) {
             daiToken.safeTransfer(owner, daiBalance);
         }
-        uint wethBalance = getWethBalance();
-        if (wethBalance > 0){
+        uint256 wethBalance = getWethBalance();
+        if (wethBalance > 0) {
             wethToken.safeTransfer(owner, wethBalance);
         }
     }
 
-    function recieve() public payable {
-        // accept ETH
+    receive() external payable {
+        //allows the contract to recieve eth.
+        //fallback
     }
 
     function wrapETH() public {
         require(msg.sender == owner, "Only the owner can conver ETH to WETH");
-        uint ethBalance = address(this).balance;
+        uint256 ethBalance = address(this).balance;
         require(ethBalance > 0, "No ETH available to wrap");
         emit myVaultLog("WrapETH:", ethBalance);
         wethToken.deposit{value: ethBalance}();
