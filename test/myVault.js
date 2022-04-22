@@ -1,4 +1,4 @@
-const credentials = require("../credentials.js");
+const credentials = require('../credentials.js')
 const { expect, assert } = require("chai");
 const { ethers } = require("hardhat");
 const hre = require("hardhat");
@@ -11,13 +11,8 @@ describe("MyVault Contract", () => {
     const contractName = "myVault";
     await hre.run("compile");
     const smartContract = await ethers.getContractFactory(contractName);
-    myVault = await smartContract.deploy([
-      credentials.daiAddress,
-      credentials.wethAddress,
-      credentials.uinswapV3QuoterAddress,
-      credentials.uinswapV3RouterAddress,
-      credentials.chainLinkETHUSDAddress,
-    ]);
+      myVault = await smartContract.deploy(
+      );
     await myVault.deployed();
     console.log(`${contractName} deployed to: ${myVault.address}`);
     console.log(`Owner = ${await myVault.owner()}`);

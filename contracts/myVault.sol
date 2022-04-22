@@ -31,11 +31,11 @@ interface DepositableERC20 is IERC20 {
 
 contract myVault {
     uint256 public version = 1;
-    address public daiAddress;
-    address public wethAddress;
-    address public uniswapV3QuoterAddress;
-    address public uniswapV3RouterAddress;
-    address public chainLinkETHUSDAddress;
+    address public daiAddress = 0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa;
+    address public wethAddress = 0xd0A1E359811322d97991E03f863a0C30C2cF029C;
+    address public uniswapV3QuoterAddress = 0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6;
+    address public uniswapV3RouterAddress = 0xE592427A0AEce92De3Edee1F18E0157C05861564;
+    address public chainLinkETHUSDAddress = 0x9326BFA02ADD2366b30bacB125260Af641031331;
 
     uint256 public ethPrice;
     uint256 public updatedPriceTime;
@@ -55,12 +55,7 @@ contract myVault {
 
     event myVaultLog(string msg, uint256 ref);
 
-    constructor(address[] memory contractAddress) {
-        daiAddress = contractAddress[0];
-        wethAddress = contractAddress[1];
-        uniswapV3QuoterAddress = contractAddress[2];
-        uniswapV3RouterAddress = contractAddress[3];
-        chainLinkETHUSDAddress = contractAddress[4];
+    constructor() {
         console.log("Deploying myVault Version:", version);
         nextDividendTS = block.timestamp + dividendFrequency;
         owner = msg.sender;
