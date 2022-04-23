@@ -2,16 +2,17 @@ const credentials = require("../credentials.js");
 const { expect, assert } = require("chai");
 const { ethers } = require("hardhat");
 const hre = require("hardhat");
-// const assert = require("chai").assert;
 
 describe("MyVault Contract", () => {
   let myVault;
+  let owner;
 
   beforeEach(async () => {
     const contractName = "Vault";
     await hre.run("compile");
+    [owner] = await ethers.getSigners();
     const smartContract = await ethers.getContractFactory(contractName);
-    myVault = await smartContract.deploy();
+    myVault = await smartContract.deploy(owner.address, 1);
     await myVault.deployed();
     console.log(`${contractName} deployed to: ${myVault.address}`);
     console.log(`Owner = ${await myVault.owner()}`);

@@ -30,7 +30,7 @@ interface DepositableERC20 is IERC20 {
 }
 
 contract Vault {
-    uint256 public version = 1;
+    uint256 public version;
     address public daiAddress = 0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa;
     address public wethAddress = 0xd0A1E359811322d97991E03f863a0C30C2cF029C;
     address public uniswapV3QuoterAddress =
@@ -58,10 +58,12 @@ contract Vault {
 
     event myVaultLog(string msg, uint256 ref);
 
-    constructor() {
-        console.log("Deploying myVault Version:", version);
+    constructor(address _owner, uint256 _version) {
+        version = _version;
         nextDividendTS = block.timestamp + dividendFrequency;
-        owner = msg.sender;
+        owner = _owner;
+        console.log("Deploying myVault Version:", version);
+        console.log("Owner of myVault:", owner);
     }
 
     function getDaiBalance() public view returns (uint256) {
