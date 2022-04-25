@@ -22,7 +22,6 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.4",
   networks: {
     hardhat: {
       accounts: {},
@@ -30,7 +29,9 @@ module.exports = {
     localhost: {
       url: "http://127.0.0.1:8545/",
       accounts:
-        process.env.PRIVATE_KEY_TEST !== undefined ? [process.env.PRIVATE_KEY_TEST] : [],
+        process.env.PRIVATE_KEY_TEST !== undefined
+          ? [process.env.PRIVATE_KEY_TEST]
+          : [],
     },
     ganache: {
       url: "http:localhost:8545",
@@ -73,5 +74,18 @@ module.exports = {
     feeCollector: {
       default: 1,
     },
+  },
+  solidity: {
+    compilers: [
+      {
+        version: "0.8.4",
+      },
+      {
+        version: "0.8.0",
+      },
+      // {
+      //   version: "0.8.10",
+      // },
+    ],
   },
 };
