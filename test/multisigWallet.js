@@ -1,10 +1,6 @@
 const { expect, assert } = require("chai");
-const { providers } = require("ethers");
 const { ethers, waffle } = require("hardhat");
 const hre = require("hardhat");
-const {
-  experimentalAddHardhatNetworkMessageTraceHook,
-} = require("hardhat/config");
 
 describe("MultiSig Contract", () => {
   let wallet;
@@ -112,29 +108,23 @@ describe("MultiSig Contract", () => {
     });
 
     //  // need to test fallback function
-    // it("Should recieve ETH from sender and emit Deposit event", async () => {
-    //   let tx = {
-    //     from: owner.address,
-    //     to: contract.address,
-    //     value: ethers.utils.parseEther("1", "ether"),
-    //   };
-    //   const transaction = await ethers.send("ether tx", tx);
-    //     await expect(transaction)
-    //       .to.emit(contract, "event data")
-    //       .withArgs(
-    //         owner.address,
-    //         ethers.utils.parseEther("1", "ether"),
-    //         ethers.utils.parseEther("1", "ether")
-    //       );
-    //   console.log(transaction);
-    
-    // });
-      
-      it("Should create new Transaction struct once submitTransaction called", async () => {
-          const to = addr1.address;
-          const value = ethers.utils.parseEther("1", "ether");
-          
-          const submitTransaction = wallet.submitTransaction()
-    })
+    it("Should recieve ETH from sender and emit Deposit event", async () => {
+      const { logs } = await wallet.sendTransaction({
+        from: owner.addrress,
+        value: ethers.utils.parseEther("1", "ether"),
+      });
+
+      assert.equal(logs[0].event, "Deposit");
+      assert.equal(logs[0].args.sender, accounts[0]);
+      assert.equal(logs[0].args.amount, 1);
+      assert.equal(logs[0].args.balance, 1);
+    });
+
+    //   it("Should create new Transaction struct once submitTransaction called", async () => {
+    //       const to = addr1.address;
+    //       const value = ethers.utils.parseEther("1", "ether");
+
+    //       const submitTransaction = wallet.submitTransaction()
+    // })
   });
 });
