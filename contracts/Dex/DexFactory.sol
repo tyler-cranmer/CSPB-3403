@@ -82,7 +82,7 @@ contract Exchange {
     function withdrawEther(uint256 _amount) public {
         require(tokens[ETHER][msg.sender] >= _amount, "Not enough tokens");
         tokens[ETHER][msg.sender] = tokens[ETHER][msg.sender].sub(_amount);
-        (bool success, ) msg.sender.call(_amount)("");
+        (bool success, ) = msg.sender.call{value: _amount}("");
         require(success, "Transfer failed");
         emit Withdraw(ETHER, msg.sender, _amount, tokens[ETHER][msg.sender]);
     }
@@ -111,14 +111,23 @@ contract Exchange {
 
 
     function balanceOf(address _token, address _owner) public view returns (uint256 balance){
-        balance = tokens[_token][_owner]
+        balance = tokens[_token][_owner];
         return balance;
     }
 
 
-    /* ORDERS */
-
-
+    function makeOrder(address _tokenIn, uint256 _amountIn, address _tokenOut, uint256 _amountOut) public {
+        orderCount = orderCount.add(1);
+        orders[orderCount] = _Order(
+            orderCount,
+            msg.sender,
+            _tokenIn,
+            _amountIn,
+            _tokenOut,
+            _amoutOut,
+            block.timestamp
+        )
+    }
 
 
 
