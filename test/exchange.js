@@ -140,8 +140,42 @@ describe("WithdrawEther Function", () => {
       await exchange.deployed();
     });
 
-    it("Should deposit teewhy token", async () => {
-      
+    it("Should deposit ERC20 tokens", async () => {
+      const value = 1000;
+      await token.connect(owner).approve(exchange.address, value);
+      await exchange.connect(owner).depositToken(token.address, value);
+      const balance = await exchange.tokens(token.address, owner.address);
+      assert(balance, value);
+    });
+
+    it("Should throw error when trying to depsoit ETHER", async () => {
+      const ETHER = "0x0000000000000000000000000000000000000000";
+      const params = {
+        value: ethers.utils.parseUnits("1", "ether"),
+      };
+
+      await expect(exchange.connect(owner).depositToken(ETHER, params.value)).to
+        .be.reverted;
+    });
+
+    it("Should revert when transferFrom function is not approved", async () => {
+      const tokenAddress = token.address;
+      const value = 1000;
+
+      await expect(exchange.connect(owner).depositToken(tokenAddress, value)).to
+        .be.reverted;
+    });
+
+    it("Should emit Deposit Event", async () => {
+      const value = 1000;
+      await token.connect(owner).approve(exchange.address, value);
+      const tx = await exchange
+        .connect(owner)
+        .depositToken(token.address, value);
+      const balance = await exchange.tokens(token.address, owner.address);
+      await expect(tx)
+        .to.emit(exchange, "Deposit")
+        .withArgs(token.address, owner.address, value, balance);
     });
   });
 });
