@@ -439,7 +439,6 @@ describe("FulFilling Orders", () => {
       fee,
       "fee account balance should equal fee for trade"
     );
-    console.log(txReceipt.events[0].args.timestamp.toString());
   });
 
   it("Should revert with error Not a valid order", async () => {
@@ -468,11 +467,3 @@ describe("FulFilling Orders", () => {
   });
 });
 
-// console.log(
-//   "owners Balance After filled order: ",
-//   await exchange.tokens(tokenGet, owner.address)
-// );
-// console.log(
-//   "addr1 Balance after filled order: ",
-//   await exchange.tokens(tokenGive, addr1.address)
-// );
