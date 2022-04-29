@@ -391,24 +391,6 @@ describe("FulFilling Orders", () => {
       .connect(owner)
       .makeOrder(tokenGet, amountGet, tokenGive, amountGive);
 
-    // console.log(
-    //   "owners ETH Balance Before Order: ",
-    //   await exchange.tokens(tokenGet, owner.address)
-    // );
-    // console.log(
-    //   "owners ERC20 Balance Before Order: ",
-    //   await exchange.tokens(tokenGive, owner.address)
-    // );
-    // console.log(
-    //   "addr1 ETH Balance Before Order: ",
-    //   await exchange.tokens(tokenGet, addr1.address)
-    // );
-    // console.log(
-    //   "addr1 ERC20 Balance Before Order: ",
-    //   await exchange.tokens(tokenGive, addr1.address)
-    // );
-
-    // console.log("---------------------------------- \n");
   });
 
   it("Should fillOrder, set orderFilled = true, emit trade event, properly swap tokens", async () => {
