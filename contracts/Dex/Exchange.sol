@@ -293,13 +293,13 @@ contract Exchange {
         uint256 _feeAmount = _amountGet.mul(feePercent).div(100);
 
         // Execute trade
-        // Get sender balance and substract the amount get (including fees)
+        // Get sender balance and substract amount Get
         tokens[_tokenGet][msg.sender] = tokens[_tokenGet][msg.sender].sub(
-            _amountGet.add(_feeAmount)
+            _amountGet
         );
 
-        // Get the user balance and add the previous value
-        tokens[_tokenGet][_user] = tokens[_tokenGet][_user].add(_amountGet);
+        // Get the user balance and add the previous value minus fee
+        tokens[_tokenGet][_user] = tokens[_tokenGet][_user].add(_amountGet.sub(_feeAmount));
 
         // add fee to feeAccount
         tokens[_tokenGet][feeAccount] = tokens[_tokenGet][feeAccount].add(
