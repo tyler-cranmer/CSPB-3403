@@ -97,9 +97,8 @@ contract Exchange {
         feePercent = _feePercent;
     }
 
-    //Fallback function for refunding if people send ether to this contract.
-    fallback() external {
-        revert();
+    receive() external payable {
+        revert("Use Deposit Ether Function");
     }
 
     /**
@@ -254,8 +253,8 @@ contract Exchange {
      */
     function fillOrder(uint256 _id) public {
         require(_id > 0 && _id <= orderCount, "Not a valid order");
-        require(!orderFilled[_id]);
-        require(!orderCancelled[_id]);
+        require(!orderFilled[_id], "Order has already been filled");
+        require(!orderCancelled[_id], "Order has already been cancelled");
 
         _Order storage order = orders[_id];
         _trade(
@@ -299,7 +298,9 @@ contract Exchange {
         );
 
         // Get the user balance and add the previous value minus fee
-        tokens[_tokenGet][_user] = tokens[_tokenGet][_user].add(_amountGet.sub(_feeAmount));
+        tokens[_tokenGet][_user] = tokens[_tokenGet][_user].add(
+            _amountGet.sub(_feeAmount)
+        );
 
         // add fee to feeAccount
         tokens[_tokenGet][feeAccount] = tokens[_tokenGet][feeAccount].add(

@@ -34,6 +34,16 @@ describe("Exchange Contract", () => {
     assert(balance, params.value);
   });
 
+  it("Should envoke Fallback function", async () => {
+    const tx = {
+      to: exchange.address,
+      value: ethers.utils.parseUnits("1", "ether"),
+    };
+    await expect(owner.sendTransaction(tx)).to.be.revertedWith(
+      "Use Deposit Ether Function"
+    );
+  });
+
   it("Should emit Deposit Event when depositing Ether", async () => {
     const params = {
       value: ethers.utils.parseUnits("1", "ether"),
@@ -318,6 +328,7 @@ describe("Order functions", () => {
 
     const cancelOrder = await exchange.connect(owner).cancelOrder(orderCount);
     const orderCancelled = await exchange.orderCancelled(orderCount);
+    const cancelTX = await cancelOrder.wait();
     assert(orderCancelled, true, "Should return true for cancelled order");
 
     await expect(cancelOrder).to.emit(exchange, "Cancel").withArgs(
@@ -327,7 +338,7 @@ describe("Order functions", () => {
       ethers.utils.parseUnits("1", "ether"),
       token.address,
       1000,
-      cancelOrder.accessList // should be cancelOrder block.timestap, but dont know how to get it.
+      cancelTX.events[0].args.timestamp.toString() // should be cancelOrder block.timestap, but dont know how to get it.
     );
   });
 });
@@ -423,8 +434,37 @@ describe("FulFilling Orders", () => {
 
     assert(ownerBalance, amountGet - fee, "Should have .9 Ether");
     assert(addr1Balance, amountGive, "address1 should have 1,000 erc20 tokens");
-    assert(feeAccountBalance, fee, "fee account balance should equal fee for trade");
+    assert(
+      feeAccountBalance,
+      fee,
+      "fee account balance should equal fee for trade"
+    );
     console.log(txReceipt.events[0].args.timestamp.toString());
+  });
+
+  it("Should revert with error Not a valid order", async () => {
+    const orderId = 3;
+    await expect(exchange.connect(owner).fillOrder(orderId)).to.be.revertedWith(
+      "Not a valid order"
+    );
+  });
+
+  it("Should revert with error Order has already been filled", async () => {
+    const orderCount = await exchange.orderCount();
+    const fillOrder = await exchange.connect(addr1).fillOrder(orderCount);
+
+    await expect(
+      exchange.connect(owner).fillOrder(orderCount)
+    ).to.be.revertedWith("Order has already been filled");
+  });
+
+  it("Should revert with error Order has already been canceled", async () => {
+    const orderCount = await exchange.orderCount();
+    const cancelOrder = await exchange.connect(owner).cancelOrder(orderCount);
+
+    await expect(
+      exchange.connect(owner).fillOrder(orderCount)
+    ).to.be.revertedWith("Order has already been cancelled");
   });
 });
 
