@@ -33,19 +33,19 @@ module.exports = {
           ? [process.env.PRIVATE_KEY_TEST]
           : [],
     },
-    ganache: {
-      url: "http:localhost:8545",
-      accounts: {
-        mnemonic: process.env.MNEMONIC,
-      },
-    },
-    mainnet: {
-      url: process.env.MAINNET_RPC_URL,
-      accounts: {
-        mnemonic: process.env.MNEMONIC,
-      },
-      saveDeployments: true,
-    },
+    // ganache: {
+    //   url: "http:localhost:8545",
+    //   accounts: {
+    //     mnemonic: process.env.MNEMONIC,
+    //   },
+    // },
+    // mainnet: {
+    //   url: process.env.MAINNET_RPC_URL,
+    //   accounts: {
+    //     mnemonic: process.env.MNEMONIC,
+    //   },
+    //   saveDeployments: true,
+    // },
     rinkeby: {
       url: process.env.RINKEBY_URL || "",
       accounts:
