@@ -1,4 +1,4 @@
-## Vault Crypto
+## Decentralize Exchange
 
 # Advanced Sample Hardhat Project
 
