@@ -93,6 +93,7 @@ contract Exchange {
      */
 
     constructor(address _feeAccount, uint256 _feePercent) {
+        require(_feeAccount != address(0));
         feeAccount = _feeAccount;
         feePercent = _feePercent;
     }

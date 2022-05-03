@@ -1,0 +1,74 @@
+strict digraph {
+subgraph cluster_712_Context {
+label = "Context"
+"712__msgData" [label="_msgData"]
+"712__msgSender" [label="_msgSender"]
+}subgraph cluster_587_ERC20 {
+label = "ERC20"
+"587_decreaseAllowance" [label="decreaseAllowance"]
+"587_allowance" [label="allowance"]
+"587_constructor" [label="constructor"]
+"587__approve" [label="_approve"]
+"587__burn" [label="_burn"]
+"587_symbol" [label="symbol"]
+"587__beforeTokenTransfer" [label="_beforeTokenTransfer"]
+"587__afterTokenTransfer" [label="_afterTokenTransfer"]
+"587__mint" [label="_mint"]
+"587_transferFrom" [label="transferFrom"]
+"587_decimals" [label="decimals"]
+"587_balanceOf" [label="balanceOf"]
+"587_increaseAllowance" [label="increaseAllowance"]
+"587__transfer" [label="_transfer"]
+"587__spendAllowance" [label="_spendAllowance"]
+"587_transfer" [label="transfer"]
+"587_approve" [label="approve"]
+"587_name" [label="name"]
+"587_totalSupply" [label="totalSupply"]
+"587_decreaseAllowance" -> "587__approve"
+"587_transferFrom" -> "587__msgSender"
+"587_transferFrom" -> "587__spendAllowance"
+"587_approve" -> "587__approve"
+"587_transferFrom" -> "587__transfer"
+"587__burn" -> "587__afterTokenTransfer"
+"587_transfer" -> "587__msgSender"
+"587_increaseAllowance" -> "587__msgSender"
+"587__transfer" -> "587__afterTokenTransfer"
+"587__spendAllowance" -> "587_allowance"
+"587__mint" -> "587__beforeTokenTransfer"
+"587_decreaseAllowance" -> "587__msgSender"
+"587__spendAllowance" -> "587__approve"
+"587__mint" -> "587__afterTokenTransfer"
+"587_approve" -> "587__msgSender"
+"587__transfer" -> "587__beforeTokenTransfer"
+"587_increaseAllowance" -> "587__approve"
+"587_transfer" -> "587__transfer"
+"587__burn" -> "587__beforeTokenTransfer"
+}subgraph cluster_1742_Token {
+label = "Token"
+"1742_constructor" [label="constructor"]
+"1742_constructor" -> "1742_constructor"
+"1742_constructor" -> "1742__mint"
+}subgraph cluster_690_IERC20Metadata {
+label = "IERC20Metadata"
+"690_name" [label="name"]
+"690_decimals" [label="decimals"]
+"690_symbol" [label="symbol"]
+}subgraph cluster_665_IERC20 {
+label = "IERC20"
+"665_balanceOf" [label="balanceOf"]
+"665_approve" [label="approve"]
+"665_allowance" [label="allowance"]
+"665_transfer" [label="transfer"]
+"665_transferFrom" [label="transferFrom"]
+"665_totalSupply" [label="totalSupply"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"require(bool,string)" 
+"587__transfer" -> "require(bool,string)"
+"587__mint" -> "require(bool,string)"
+"587__spendAllowance" -> "require(bool,string)"
+"587__approve" -> "require(bool,string)"
+"587_decreaseAllowance" -> "require(bool,string)"
+"587__burn" -> "require(bool,string)"
+}
+}

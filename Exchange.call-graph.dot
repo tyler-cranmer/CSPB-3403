@@ -1,0 +1,32 @@
+strict digraph {
+subgraph cluster_1719_Exchange {
+label = "Exchange"
+"1719_balanceOf" [label="balanceOf"]
+"1719_depositToken" [label="depositToken"]
+"1719_withdrawEther" [label="withdrawEther"]
+"1719_constructor" [label="constructor"]
+"1719_depositEther" [label="depositEther"]
+"1719__trade" [label="_trade"]
+"1719_slitherConstructorConstantVariables" [label="slitherConstructorConstantVariables"]
+"1719_withdrawToken" [label="withdrawToken"]
+"1719_cancelOrder" [label="cancelOrder"]
+"1719_makeOrder" [label="makeOrder"]
+"1719_receive" [label="receive"]
+"1719_fillOrder" [label="fillOrder"]
+"1719_fillOrder" -> "1719__trade"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"revert(string)" 
+"require(bool)" 
+"require(bool,string)" 
+"1719_cancelOrder" -> "require(bool)"
+"1719_withdrawToken" -> "require(bool)"
+"1719_constructor" -> "require(bool)"
+"1719_fillOrder" -> "require(bool,string)"
+"1719_withdrawEther" -> "require(bool,string)"
+"1719_receive" -> "revert(string)"
+"1719_cancelOrder" -> "require(bool,string)"
+"1719_withdrawToken" -> "require(bool,string)"
+"1719_depositToken" -> "require(bool)"
+}
+}

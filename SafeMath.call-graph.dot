@@ -1,0 +1,21 @@
+strict digraph {
+subgraph cluster_1024_SafeMath {
+label = "SafeMath"
+"1024_trySub" [label="trySub"]
+"1024_tryMod" [label="tryMod"]
+"1024_tryMul" [label="tryMul"]
+"1024_sub" [label="sub"]
+"1024_div" [label="div"]
+"1024_tryDiv" [label="tryDiv"]
+"1024_mul" [label="mul"]
+"1024_tryAdd" [label="tryAdd"]
+"1024_add" [label="add"]
+"1024_mod" [label="mod"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"require(bool,string)" 
+"1024_sub" -> "require(bool,string)"
+"1024_div" -> "require(bool,string)"
+"1024_mod" -> "require(bool,string)"
+}
+}

@@ -1,0 +1,249 @@
+strict digraph {
+subgraph cluster_1024_SafeMath {
+label = "SafeMath"
+"1024_trySub" [label="trySub"]
+"1024_tryMod" [label="tryMod"]
+"1024_tryMul" [label="tryMul"]
+"1024_sub" [label="sub"]
+"1024_div" [label="div"]
+"1024_tryDiv" [label="tryDiv"]
+"1024_mul" [label="mul"]
+"1024_tryAdd" [label="tryAdd"]
+"1024_add" [label="add"]
+"1024_mod" [label="mod"]
+}subgraph cluster_712_Context {
+label = "Context"
+"712__msgData" [label="_msgData"]
+"712__msgSender" [label="_msgSender"]
+}subgraph cluster_587_ERC20 {
+label = "ERC20"
+"587_decreaseAllowance" [label="decreaseAllowance"]
+"587_allowance" [label="allowance"]
+"587_constructor" [label="constructor"]
+"587__approve" [label="_approve"]
+"587__burn" [label="_burn"]
+"587_symbol" [label="symbol"]
+"587__beforeTokenTransfer" [label="_beforeTokenTransfer"]
+"587__afterTokenTransfer" [label="_afterTokenTransfer"]
+"587__mint" [label="_mint"]
+"587_transferFrom" [label="transferFrom"]
+"587_decimals" [label="decimals"]
+"587_balanceOf" [label="balanceOf"]
+"587_increaseAllowance" [label="increaseAllowance"]
+"587__transfer" [label="_transfer"]
+"587__spendAllowance" [label="_spendAllowance"]
+"587_transfer" [label="transfer"]
+"587_approve" [label="approve"]
+"587_name" [label="name"]
+"587_totalSupply" [label="totalSupply"]
+"587_decreaseAllowance" -> "587__approve"
+"587_transferFrom" -> "587__msgSender"
+"587_transferFrom" -> "587__spendAllowance"
+"587_approve" -> "587__approve"
+"587_transferFrom" -> "587__transfer"
+"587__burn" -> "587__afterTokenTransfer"
+"587_transfer" -> "587__msgSender"
+"587_increaseAllowance" -> "587__msgSender"
+"587__transfer" -> "587__afterTokenTransfer"
+"587__spendAllowance" -> "587_allowance"
+"587__mint" -> "587__beforeTokenTransfer"
+"587_decreaseAllowance" -> "587__msgSender"
+"587__spendAllowance" -> "587__approve"
+"587__mint" -> "587__afterTokenTransfer"
+"587__transfer" -> "587__beforeTokenTransfer"
+"587_approve" -> "587__msgSender"
+"587_increaseAllowance" -> "587__approve"
+"587_transfer" -> "587__transfer"
+"587__burn" -> "587__beforeTokenTransfer"
+}subgraph cluster_9806_console {
+label = "console"
+"9806_logBytes23" [label="logBytes23"]
+"9806_logBytes4" [label="logBytes4"]
+"9806_logBytes22" [label="logBytes22"]
+"9806_logBytes9" [label="logBytes9"]
+"9806_logBytes16" [label="logBytes16"]
+"9806_logBytes30" [label="logBytes30"]
+"9806_logBytes10" [label="logBytes10"]
+"9806_logInt" [label="logInt"]
+"9806_logBytes1" [label="logBytes1"]
+"9806_logBytes31" [label="logBytes31"]
+"9806_logBytes13" [label="logBytes13"]
+"9806_logBytes21" [label="logBytes21"]
+"9806_logAddress" [label="logAddress"]
+"9806_logBytes29" [label="logBytes29"]
+"9806_logBytes18" [label="logBytes18"]
+"9806_logBytes24" [label="logBytes24"]
+"9806_logBytes2" [label="logBytes2"]
+"9806_logBytes8" [label="logBytes8"]
+"9806_logBytes11" [label="logBytes11"]
+"9806_logBytes" [label="logBytes"]
+"9806_log" [label="log"]
+"9806_logString" [label="logString"]
+"9806__sendLogPayload" [label="_sendLogPayload"]
+"9806_logUint" [label="logUint"]
+"9806_logBytes26" [label="logBytes26"]
+"9806_logBytes14" [label="logBytes14"]
+"9806_logBytes12" [label="logBytes12"]
+"9806_logBytes27" [label="logBytes27"]
+"9806_logBytes5" [label="logBytes5"]
+"9806_logBytes20" [label="logBytes20"]
+"9806_logBytes32" [label="logBytes32"]
+"9806_logBytes7" [label="logBytes7"]
+"9806_logBytes19" [label="logBytes19"]
+"9806_logBytes15" [label="logBytes15"]
+"9806_logBool" [label="logBool"]
+"9806_logBytes28" [label="logBytes28"]
+"9806_logBytes25" [label="logBytes25"]
+"9806_logBytes3" [label="logBytes3"]
+"9806_logBytes17" [label="logBytes17"]
+"9806_logBytes6" [label="logBytes6"]
+"9806_logBytes7" -> "9806__sendLogPayload"
+"9806_logBytes2" -> "9806__sendLogPayload"
+"9806_logBytes30" -> "9806__sendLogPayload"
+"9806_logBytes20" -> "9806__sendLogPayload"
+"9806_logBytes10" -> "9806__sendLogPayload"
+"9806_log" -> "9806__sendLogPayload"
+"9806_logBytes11" -> "9806__sendLogPayload"
+"9806_logBytes19" -> "9806__sendLogPayload"
+"9806_logBytes9" -> "9806__sendLogPayload"
+"9806_logBytes26" -> "9806__sendLogPayload"
+"9806_logBytes16" -> "9806__sendLogPayload"
+"9806_logString" -> "9806__sendLogPayload"
+"9806_logBool" -> "9806__sendLogPayload"
+"9806_logInt" -> "9806__sendLogPayload"
+"9806_logBytes8" -> "9806__sendLogPayload"
+"9806_logBytes25" -> "9806__sendLogPayload"
+"9806_logAddress" -> "9806__sendLogPayload"
+"9806_logBytes" -> "9806__sendLogPayload"
+"9806_logBytes17" -> "9806__sendLogPayload"
+"9806_logBytes18" -> "9806__sendLogPayload"
+"9806_logBytes21" -> "9806__sendLogPayload"
+"9806_logBytes29" -> "9806__sendLogPayload"
+"9806_logBytes12" -> "9806__sendLogPayload"
+"9806_logBytes31" -> "9806__sendLogPayload"
+"9806_logBytes3" -> "9806__sendLogPayload"
+"9806_logBytes5" -> "9806__sendLogPayload"
+"9806_logBytes13" -> "9806__sendLogPayload"
+"9806_logBytes28" -> "9806__sendLogPayload"
+"9806_logBytes27" -> "9806__sendLogPayload"
+"9806_logBytes15" -> "9806__sendLogPayload"
+"9806_logBytes4" -> "9806__sendLogPayload"
+"9806_logBytes24" -> "9806__sendLogPayload"
+"9806_logBytes6" -> "9806__sendLogPayload"
+"9806_logBytes1" -> "9806__sendLogPayload"
+"9806_logBytes14" -> "9806__sendLogPayload"
+"9806_logBytes22" -> "9806__sendLogPayload"
+"9806_logBytes32" -> "9806__sendLogPayload"
+"9806_logBytes23" -> "9806__sendLogPayload"
+"9806_logUint" -> "9806__sendLogPayload"
+}subgraph cluster_1742_Token {
+label = "Token"
+"1742_constructor" [label="constructor"]
+"1742_constructor" -> "1742_constructor"
+"1742_constructor" -> "1742__mint"
+}subgraph cluster_690_IERC20Metadata {
+label = "IERC20Metadata"
+"690_name" [label="name"]
+"690_decimals" [label="decimals"]
+"690_symbol" [label="symbol"]
+}subgraph cluster_1719_Exchange {
+label = "Exchange"
+"1719_balanceOf" [label="balanceOf"]
+"1719_depositToken" [label="depositToken"]
+"1719_withdrawEther" [label="withdrawEther"]
+"1719_constructor" [label="constructor"]
+"1719_depositEther" [label="depositEther"]
+"1719__trade" [label="_trade"]
+"1719_withdrawToken" [label="withdrawToken"]
+"1719_cancelOrder" [label="cancelOrder"]
+"1719_makeOrder" [label="makeOrder"]
+"1719_receive" [label="receive"]
+"1719_fillOrder" [label="fillOrder"]
+"1719_fillOrder" -> "1719__trade"
+}subgraph cluster_665_IERC20 {
+label = "IERC20"
+"665_balanceOf" [label="balanceOf"]
+"665_approve" [label="approve"]
+"665_allowance" [label="allowance"]
+"665_transfer" [label="transfer"]
+"665_transferFrom" [label="transferFrom"]
+"665_totalSupply" [label="totalSupply"]
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"staticcall(uint256,uint256,uint256,uint256,uint256,uint256)" 
+"revert(string)" 
+"require(bool,string)" 
+"abi.encodeWithSignature()" 
+"gas()" 
+"require(bool)" 
+"9806_logBytes12" -> "abi.encodeWithSignature()"
+"9806_logBytes6" -> "abi.encodeWithSignature()"
+"587__mint" -> "require(bool,string)"
+"9806_logBytes27" -> "abi.encodeWithSignature()"
+"9806_logBytes14" -> "abi.encodeWithSignature()"
+"9806_logInt" -> "abi.encodeWithSignature()"
+"9806_logBytes13" -> "abi.encodeWithSignature()"
+"9806_logBytes19" -> "abi.encodeWithSignature()"
+"9806__sendLogPayload" -> "staticcall(uint256,uint256,uint256,uint256,uint256,uint256)"
+"9806_logBytes25" -> "abi.encodeWithSignature()"
+"9806_logBytes26" -> "abi.encodeWithSignature()"
+"9806_logBytes23" -> "abi.encodeWithSignature()"
+"9806_logBytes10" -> "abi.encodeWithSignature()"
+"587__transfer" -> "require(bool,string)"
+"1719_constructor" -> "require(bool)"
+"9806_logBytes32" -> "abi.encodeWithSignature()"
+"9806_logBytes20" -> "abi.encodeWithSignature()"
+"9806_logBytes28" -> "abi.encodeWithSignature()"
+"587__approve" -> "require(bool,string)"
+"9806_logBytes29" -> "abi.encodeWithSignature()"
+"9806_logBytes7" -> "abi.encodeWithSignature()"
+"9806_logBytes17" -> "abi.encodeWithSignature()"
+"9806_logBytes15" -> "abi.encodeWithSignature()"
+"9806__sendLogPayload" -> "gas()"
+"1024_div" -> "require(bool,string)"
+"9806_logUint" -> "abi.encodeWithSignature()"
+"9806_logBytes" -> "abi.encodeWithSignature()"
+"9806_logBytes5" -> "abi.encodeWithSignature()"
+"9806_logBytes3" -> "abi.encodeWithSignature()"
+"9806_logBytes9" -> "abi.encodeWithSignature()"
+"9806_logBytes18" -> "abi.encodeWithSignature()"
+"9806_logString" -> "abi.encodeWithSignature()"
+"9806_logBool" -> "abi.encodeWithSignature()"
+"9806_logBytes22" -> "abi.encodeWithSignature()"
+"9806_logBytes24" -> "abi.encodeWithSignature()"
+"9806_logBytes31" -> "abi.encodeWithSignature()"
+"1719_cancelOrder" -> "require(bool,string)"
+"9806_logBytes30" -> "abi.encodeWithSignature()"
+"9806_logBytes16" -> "abi.encodeWithSignature()"
+"9806_logAddress" -> "abi.encodeWithSignature()"
+"9806_logBytes2" -> "abi.encodeWithSignature()"
+"9806_logBytes21" -> "abi.encodeWithSignature()"
+"1719_cancelOrder" -> "require(bool)"
+"9806_log" -> "abi.encodeWithSignature()"
+"1024_mod" -> "require(bool,string)"
+"1719_withdrawToken" -> "require(bool)"
+"9806_logBytes8" -> "abi.encodeWithSignature()"
+"587__spendAllowance" -> "require(bool,string)"
+"1719_fillOrder" -> "require(bool,string)"
+"1024_sub" -> "require(bool,string)"
+"1719_withdrawEther" -> "require(bool,string)"
+"9806_logBytes11" -> "abi.encodeWithSignature()"
+"1719_receive" -> "revert(string)"
+"1719_withdrawToken" -> "require(bool,string)"
+"1719_depositToken" -> "require(bool)"
+"9806_logBytes4" -> "abi.encodeWithSignature()"
+"9806_logBytes1" -> "abi.encodeWithSignature()"
+"587_decreaseAllowance" -> "require(bool,string)"
+"587__burn" -> "require(bool,string)"
+}"1719_withdrawToken" -> "1024_sub"
+"1719__trade" -> "1024_add"
+"1719_withdrawEther" -> "1024_sub"
+"1719_withdrawToken" -> "1742_transfer"
+"1719_depositToken" -> "1024_add"
+"1719_makeOrder" -> "1024_add"
+"1719__trade" -> "1024_div"
+"1719_depositEther" -> "1024_add"
+"1719__trade" -> "1024_sub"
+"1719_depositToken" -> "1742_transferFrom"
+"1719__trade" -> "1024_mul"
+}
